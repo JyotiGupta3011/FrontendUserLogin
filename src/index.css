@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  font-family: 'Inter', system_ui, sans-serif;
+}
+
+/* 1. Prevent the whole page from scrolling */
+html, body, #root {
+  height: 100%;
+  overflow: hidden; 
+}
+
+/* 2. Force the Chat Widget to the bottom right corner */
+div[class*="bitmax-crm-widget"] {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  top: auto !important;
+  z-index: 9999 !important;
+}
+
+/* 3. Force the Chat Popup to appear ABOVE the logo on the right */
+div[class*="chat-window"], 
+div[class*="query-container"] {
+  position: absolute !important;
+  bottom: 70px !important; /* This pushes it UP above the toggle button */
+  right: 0 !important;
+  left: auto !important;
+  width: 350px !important; /* Professional width */
+  height: 450px !important; /* Fixed height so it doesn't push the page */
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
