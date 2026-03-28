@@ -7,19 +7,19 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
-
         // If no token, redirect to login immediately
         if (!token) {
           navigate("/login-password");
           return;
         }
 
-        const response = await axios.get("http://localhost:5000/api/profile", {
+        const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+        const response = await axios.get(`${apiUrl}/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -40,7 +40,7 @@ const Profile = () => {
     };
 
     fetchProfile();
-  }, [navigate]);
+  }, [navigate, token]);
 
   if (loading) {
     return (
@@ -101,6 +101,13 @@ const Profile = () => {
       <span className="h-2 w-2 bg-green-500 rounded-full mr-2"></span>
       Active & Verified
     </p>
+  </div>
+
+  <div className="p-2 bg-gray-50 rounded-xl border border-gray-100">
+    <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+      Auth Token
+    </label>
+    <p className="text-sm font-medium text-gray-800 break-all">{token || "Token not found"}</p>
   </div>
 </div>
 
