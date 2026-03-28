@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Dashboard = () => {
-  const token = localStorage.getItem("token");
+  const authToken = localStorage.getItem("token");
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh]">
@@ -12,9 +12,11 @@ const Dashboard = () => {
         <p className="text-gray-600 text-lg">
           You are successfully logged into the AuthSystem.
         </p>
-        <p className="text-sm text-gray-400 mt-4 break-all">
-          Auth Token: {token || "Token not found"}
-        </p>
+        {authToken ? (
+          <p className="text-sm text-gray-400 mt-4 break-all">
+            Auth Token: {authToken}
+          </p>
+        ) : null}
       </div>
     </div>
   );
