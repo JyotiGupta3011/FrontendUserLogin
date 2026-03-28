@@ -12,7 +12,7 @@ const LoginPassword = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        (process.env.REACT_APP_API_URL || "http://localhost:5000") + "/api/login-password", 
+        (process.env.REACT_APP_API_URL || "https://backend-userlogin.vercel.app") + "/api/login-password", 
         form
       );
       
