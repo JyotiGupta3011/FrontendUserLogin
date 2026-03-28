@@ -103,12 +103,7 @@ const Profile = () => {
     </p>
   </div>
 
-  <div className="p-2 bg-gray-50 rounded-xl border border-gray-100">
-    <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-      Auth Token
-    </label>
-    <p className="text-sm font-medium text-gray-800 break-all">{token || "Token not found"}</p>
-  </div>
+
 </div>
 
     </div>

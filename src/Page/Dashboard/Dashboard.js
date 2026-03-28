@@ -12,9 +12,7 @@ const Dashboard = () => {
         <p className="text-gray-600 text-lg">
           You are successfully logged into the AuthSystem.
         </p>
-        <p className="text-sm text-gray-400 mt-4 break-all">
-          Auth Token: {token || "Token not found"}
-        </p>
+       
       </div>
     </div>
   );
