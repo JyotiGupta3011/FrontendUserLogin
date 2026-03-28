@@ -8,51 +8,61 @@ const VerifyOTP = () => {
   const [identifier, setIdentifier] = useState("");
   const navigate = useNavigate();
 
-  const mode = sessionStorage.getItem("otpMode");
-  const email = sessionStorage.getItem("tempEmail");
+  const mode = localStorage.getItem("otpMode");
+  const email = localStorage.getItem("tempEmail");
 
   useEffect(() => {
-    if (mode === "register") setIdentifier(email);
+    if (mode === "register") {
+      setIdentifier(email);
+      return;
+    }
+
+    const otpType = localStorage.getItem("otpType");
+    const otpIdentifier = localStorage.getItem("otpIdentifier");
+    setIdentifier(otpType === "email" ? otpIdentifier : otpIdentifier || "");
   }, [mode, email]);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  const mode = sessionStorage.getItem("otpMode");
-  const tempEmail = sessionStorage.getItem("tempEmail"); 
-  const otpIdentifier = sessionStorage.getItem("otpIdentifier");
-  const otpType = sessionStorage.getItem("otpType");
+    const currentMode = localStorage.getItem("otpMode");
+    const tempEmail = localStorage.getItem("tempEmail");
+    const otpIdentifier = localStorage.getItem("otpIdentifier");
+    const otpType = localStorage.getItem("otpType");
 
-  try {
-    const endpoint = mode === "register" ? "/api/verify-otp" : "/api/verify-login-otp";
-    
-    let payload = { otp };
+    try {
+      const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+      const endpoint = currentMode === "register" ? "/api/verify-otp" : "/api/verify-login-otp";
+      const payload = { otp };
 
-    if (mode === "register") {
-      payload.email = tempEmail;
-    } else {
-      // Login flow logic
-      if (otpType === "email") {
+      if (currentMode === "register") {
+        payload.email = tempEmail;
+      } else if (otpType === "email") {
         payload.email = otpIdentifier;
       } else {
         payload.phone = otpIdentifier;
       }
-    }
-const res = await axios.post(process.env.REACT_APP_API_URL + endpoint, payload);
 
-    if (mode === "register") {
-      navigate("/set-password");
-    } else {
-      localStorage.setItem("token", res.data.token);
-      alert("✅ Login Successful!");
-      navigate("/");
+      const res = await axios.post(`${apiUrl}${endpoint}`, payload);
+
+      if (currentMode === "register") {
+        localStorage.removeItem("otpMode");
+        navigate("/set-password");
+      } else {
+        localStorage.setItem("token", res.data.token);
+        localStorage.removeItem("otpIdentifier");
+        localStorage.removeItem("otpType");
+        localStorage.removeItem("otpMode");
+        alert("Login Successful!");
+        navigate("/");
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "Invalid OTP");
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    alert(err.response?.data?.message || "Invalid OTP");
-  }
-  setLoading(false);
-};
+  };
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center">

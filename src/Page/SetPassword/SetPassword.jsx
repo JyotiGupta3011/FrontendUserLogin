@@ -10,8 +10,8 @@ const SetPassword = () => {
   const location = useLocation();
 
   // 1. Pehle React Router ki 'state' se email lene ki koshish karein
-  // 2. Agar wahan nahi milta toh 'sessionStorage' check karein
-  const email = location.state?.email || sessionStorage.getItem("tempEmail");
+  // 2. Agar wahan nahi milta toh 'localStorage' check karein
+  const email = location.state?.email || localStorage.getItem("tempEmail");
 
   useEffect(() => {
     // Agar email dono jagah nahi milta, toh user ko wapas bhej dein
@@ -33,7 +33,7 @@ const SetPassword = () => {
       
       alert("✅ Password Set Successfully! You can now login.");
       // Kaam khatam hone ke baad temporary email ko saaf kar dein
-      sessionStorage.removeItem("tempEmail");
+      localStorage.removeItem("tempEmail");
       navigate("/login-password");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to set password");

@@ -30,8 +30,8 @@ const Register = () => {
       const apiUrl = process.env.REACT_APP_API_URL + "/api/register";
       await axios.post(apiUrl, form);
       
-      sessionStorage.setItem("tempEmail", form.email);
-      sessionStorage.setItem("otpMode", "register");
+      localStorage.setItem("tempEmail", form.email);
+      localStorage.setItem("otpMode", "register");
       navigate("/verify-otp");
     } catch (err) {
       alert(err.response?.data?.message || "Registration failed");

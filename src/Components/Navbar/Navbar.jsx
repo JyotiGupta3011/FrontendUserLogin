@@ -6,6 +6,10 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("tempEmail");
+    localStorage.removeItem("otpMode");
+    localStorage.removeItem("otpIdentifier");
+    localStorage.removeItem("otpType");
     alert("Logged out successfully");
     navigate("/login-password");
   };
