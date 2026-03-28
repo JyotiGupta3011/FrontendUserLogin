@@ -2,6 +2,7 @@ import React from 'react';
 
 const Dashboard = () => {
   const authToken = localStorage.getItem("token");
+  const isLoggedIn = Boolean(authToken);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh]">
@@ -12,11 +13,9 @@ const Dashboard = () => {
         <p className="text-gray-600 text-lg">
           You are successfully logged into the AuthSystem.
         </p>
-        {authToken ? (
-          <p className="text-sm text-gray-400 mt-4 break-all">
-            Auth Token: {authToken}
-          </p>
-        ) : null}
+        <p className="text-sm text-gray-400 mt-4">
+          Status: {isLoggedIn ? "Authenticated" : "Guest"}
+        </p>
       </div>
     </div>
   );
